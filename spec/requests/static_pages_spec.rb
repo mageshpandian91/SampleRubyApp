@@ -2,24 +2,32 @@ require 'spec_helper'
 
 describe "Static pages" do
 
+   subject { page }
+
   describe "Home page" do
 
-    it "should have the content 'Sample App'" do
-      visit '/static_pages/home'
-      page.should have_content('Sample App')
-    end
+    before { visit root_path }
+    
+    it { should have_content('Sample App') }
+          
+    it { should have_selector 'title',
+                        text: full_title('') }      
 
-    it "should not have a custom page title" do
-      visit '/static_pages/home'
-      page.should_not have_selector('title', :text => '| Home')
-    end
+    it { should_not have_selector('title', text: '| Home') }
+      
   end
 
   describe "About page" do
+    before { visit about_path }
 
-    it "should have the content 'About Us'" do
-      visit '/static_pages/about'
-      page.should have_content('About Us')
-    end
+    it { should have_selector('h1',    text: 'About') }
+    it { should have_selector('title', text: full_title('About Us')) }
+  end
+
+  describe "Contact page" do
+    before { visit contact_path }
+
+    it { should have_selector('h1',    text: 'Contact') }
+    it { should have_selector('title', text: full_title('Contact')) }
   end
 end
